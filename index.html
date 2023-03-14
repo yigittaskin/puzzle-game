@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>16-Piece Puzzle Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="puzzle">
+    <div class="piece" style="top: 0; left: 0">1</div>
+    <div class="piece" style="top: 0; left: 100px">2</div>
+    <div class="piece" style="top: 0; left: 200px">3</div>
+    <div class="piece" style="top: 0; left: 300px">4</div>
+    <div class="piece" style="top: 100px; left: 0">5</div>
+    <div class="piece" style="top: 100px; left: 100px">6</div>
+    <div class="piece" style="top: 100px; left: 200px">7</div>
+    <div class="piece" style="top: 100px; left: 300px">8</div>
+    <div class="piece" style="top: 200px; left: 0">9</div>
+    <div class="piece" style="top: 200px; left: 100px">10</div>
+    <div class="piece" style="top: 200px; left: 200px">11</div>
+    <div class="piece" style="top: 200px; left: 300px">12</div>
+    <div class="piece" style="top: 300px; left: 0">13</div>
+    <div class="piece" style="top: 300px; left: 100px">14</div>
+    <div class="piece" style="top: 300px; left: 200px">15</div>
+    <div class="piece" style="top: 300px; left: 300px">16</div>
+  </div>
+
+  <button id="shuffle">Shuffle</button>
+  <h2 id="count">Count: 0</h2>
+
+  <div id="fullscreen-alert">
+    <div class="overlay"></div>
+    <div class="content">
+      <h4 class="congrat">Congratulations! You have successfully completed the game.</h4>
+      <h2 id="countCongrat">Count: 0</h2>
+      <button class="bn54" onclick="closeFullscreenAlert()"><span class="bn54span">Play Again</span></button>
+    </div>
+  </div>
+  
+
+ <script src="puzzleGame.js"></script>
+</body>
+
+</html>
