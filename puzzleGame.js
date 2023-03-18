@@ -1,8 +1,10 @@
 const pieces = document.querySelectorAll('.piece');
 var countDiv = document.getElementById('count');
 var countCongrat = document.getElementById('countCongrat');
+var usernameInput = document.getElementById('username');
 let firstClick = null;
 let count = 0;
+let username;
 
 // Bağlı Liste oluşturulması
 pieces.forEach((piece) => {
@@ -140,6 +142,16 @@ function openFullscreenAlert() {
 
 function closeFullscreenAlert() {
   document.getElementById("fullscreen-alert").style.display = "none";
+
+  if (usernameInput.value) {
+    document.getElementById("fullscreen-alert-user").style.display = "none";
+    username = usernameInput.value;
+    document.querySelector('.user').innerHTML = username;
+  }
+  else {
+    usernameInput.style.border = "1px solid red";
+  }
+
   count = 0;
   printCount();
   shuffle();
