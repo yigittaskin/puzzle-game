@@ -9,26 +9,35 @@ let username;
 
 // Yüklenen resmi 16 parçaya bölme
 const uploadImage = document.getElementById("uploadImage");
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext("2d");
 
 uploadImage.addEventListener("change", function () {
   const dosya = this.files[0];
   const fileReader = new FileReader();
 
   fileReader.onload = function (e) {
-    const arkaPlanResmiUrl = e.target.result;
+    const puzzleImage = e.target.result;
     // Resim elemanını seçin ve canvas'a yükleyin
     const image = new Image();
-    image.src = arkaPlanResmiUrl;
+    image.src = puzzleImage;
+    console.log(image);
 
-    fullPuzzle.style.backgroundImage = `url(${image.src})`;
-
-    // Resmi yüklendikten sonra parçalara ayırın ve her parçayı bir div elemanına ekleyin
+    // Resmi yükleyin ve boyutlarını kontrol edin
     image.onload = () => {
-      // Resim boyutlarını ve parça boyutlarını hesaplayın
       const imgWidth = image.width;
       const imgHeight = image.height;
-      const pieceWidth = imgWidth / 4;
-      const pieceHeight = imgHeight / 4;
+      if (imgWidth > 600 || imgHeight > 600) {
+        alert('Önerilen boyut: 600x600.... Yine de devam etmek ister misiniz?');
+      }
+
+      // Canvas boyutlarını ayarlayın
+      canvas.width = 600;
+      canvas.height = 600;
+
+      // Resmi canvas'a çizin
+      ctx.drawImage(image, 0, 0, 600, 600);
+      fullPuzzle.style.backgroundImage = `url(${canvas.toDataURL()})`;
 
       // Her bir parça için img etiketini güncelleyin
       for (let i = 0; i < pieces.length; i++) {
@@ -37,13 +46,13 @@ uploadImage.addEventListener("change", function () {
         // Parça koordinatlarını hesaplayın
         const x = i % 4;
         const y = Math.floor(i / 4);
-        const backgroundPositionX = -x * 96;
-        const backgroundPositionY = -y * 96;
+        const backgroundPositionX = -x * 146;
+        const backgroundPositionY = -y * 146;
 
         // img etiketinin stil özelliklerini ayarlayın
-        piece.style.width = '96px';
-        piece.style.height = '96px';
-        piece.style.backgroundImage = `url(${image.src})`;
+        piece.style.width = '146px';
+        piece.style.height = '146px';
+        piece.style.backgroundImage = `url(${canvas.toDataURL()})`;
         piece.style.backgroundPosition = `${backgroundPositionX}px ${backgroundPositionY}px`;
       }
     };
@@ -51,6 +60,7 @@ uploadImage.addEventListener("change", function () {
 
   fileReader.readAsDataURL(dosya);
 });
+
 
 // Bağlı Liste oluşturulması
 pieces.forEach((piece) => {
@@ -63,15 +73,15 @@ pieces.forEach((piece) => {
       (
         otherPiece.style.top === piece.style.top &&
         (
-          otherPiece.style.left === piece.style.left + '100px' ||
-          otherPiece.style.left === piece.style.left - '100px'
+          otherPiece.style.left === piece.style.left + '150px' ||
+          otherPiece.style.left === piece.style.left - '150px'
         )
       ) ||
       (
         otherPiece.style.left === piece.style.left &&
         (
-          otherPiece.style.top === piece.style.top + '100px' ||
-          otherPiece.style.top === piece.style.top - '100px'
+          otherPiece.style.top === piece.style.top + '150px' ||
+          otherPiece.style.top === piece.style.top - '150px'
         )
       )
     ) {
@@ -100,8 +110,8 @@ function shuffle() {
   }
 
   pieces.forEach((piece, index) => {
-    piece.style.top = Math.floor(indexes[index] / 4) * 100 + 'px';
-    piece.style.left = (indexes[index] % 4) * 100 + 'px';
+    piece.style.top = Math.floor(indexes[index] / 4) * 150 + 'px';
+    piece.style.left = (indexes[index] % 4) * 150 + 'px';
   });
 }
 
@@ -170,7 +180,7 @@ function checkIfSolved() {
     const left = parseInt(piece.style.left);
     const top = parseInt(piece.style.top);
     checkSort += `${left},${top},`;
-    const correctSort = "0,0,100,0,200,0,300,0,0,100,100,100,200,100,300,100,0,200,100,200,200,200,300,200,0,300,100,300,200,300,300,300,";
+    const correctSort = "0,0,150,0,300,0,450,0,0,150,150,150,300,150,450,150,0,300,150,300,300,300,450,300,0,450,150,450,300,450,450,450,";
     // Puzzle sıralamasının doğru olup olmadığının kontrolü
     if (correctSort == checkSort) {
       isSolved = true;
