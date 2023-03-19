@@ -32,23 +32,23 @@ body {
 
 .puzzle {
   margin-right: 10px;
-  width: 400px;
-  height: 400px;
+  width: 600px;
+  height: 600px;
   position: relative;
   border: 2px solid #333;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
 .full-puzzle {
-  width: 400px;
-  height: 400px;
+  width: 600px;
+  height: 600px;
   border: 2px solid #333;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
 .piece {
-  width: 96px;
-  height: 96px;
+  width: 146px;
+  height: 146px;
   position: absolute;
   border: 2px solid #333;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
@@ -84,6 +84,7 @@ body {
 
 #shuffle:hover {
   background-color: #555;
+  animation: bn54rotate 0.7s ease-in-out both;
 }
 
 #shuffle:focus {
