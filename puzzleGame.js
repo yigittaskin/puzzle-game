@@ -1,10 +1,56 @@
 const pieces = document.querySelectorAll('.piece');
+const fullPuzzle = document.querySelector('.full-puzzle');
 var countDiv = document.getElementById('count');
 var countCongrat = document.getElementById('countCongrat');
 var usernameInput = document.getElementById('username');
 let firstClick = null;
 let count = 0;
 let username;
+
+// Yüklenen resmi 16 parçaya bölme
+const uploadImage = document.getElementById("uploadImage");
+
+uploadImage.addEventListener("change", function () {
+  const dosya = this.files[0];
+  const fileReader = new FileReader();
+
+  fileReader.onload = function (e) {
+    const arkaPlanResmiUrl = e.target.result;
+    // Resim elemanını seçin ve canvas'a yükleyin
+    const image = new Image();
+    image.src = arkaPlanResmiUrl;
+
+    fullPuzzle.style.backgroundImage = `url(${image.src})`;
+
+    // Resmi yüklendikten sonra parçalara ayırın ve her parçayı bir div elemanına ekleyin
+    image.onload = () => {
+      // Resim boyutlarını ve parça boyutlarını hesaplayın
+      const imgWidth = image.width;
+      const imgHeight = image.height;
+      const pieceWidth = imgWidth / 4;
+      const pieceHeight = imgHeight / 4;
+
+      // Her bir parça için img etiketini güncelleyin
+      for (let i = 0; i < pieces.length; i++) {
+        const piece = pieces[i];
+
+        // Parça koordinatlarını hesaplayın
+        const x = i % 4;
+        const y = Math.floor(i / 4);
+        const backgroundPositionX = -x * 96;
+        const backgroundPositionY = -y * 96;
+
+        // img etiketinin stil özelliklerini ayarlayın
+        piece.style.width = '96px';
+        piece.style.height = '96px';
+        piece.style.backgroundImage = `url(${image.src})`;
+        piece.style.backgroundPosition = `${backgroundPositionX}px ${backgroundPositionY}px`;
+      }
+    };
+  }
+
+  fileReader.readAsDataURL(dosya);
+});
 
 // Bağlı Liste oluşturulması
 pieces.forEach((piece) => {

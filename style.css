@@ -11,7 +11,7 @@ body {
 }
 
 .userBox {
-  margin-bottom: 50px;
+  margin:20px 20px;
   padding: 10px;
   background-color: #333;
   color: white;
@@ -23,10 +23,25 @@ body {
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.area {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .puzzle {
+  margin-right: 10px;
   width: 400px;
   height: 400px;
   position: relative;
+  border: 2px solid #333;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.full-puzzle {
+  width: 400px;
+  height: 400px;
   border: 2px solid #333;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
@@ -35,7 +50,6 @@ body {
   width: 96px;
   height: 96px;
   position: absolute;
-  background-color: #fff;
   border: 2px solid #333;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -47,17 +61,17 @@ body {
 }
 
 .piece:hover {
-  transform: scale(1.1);
+  border: 2px solid greenyellow;
 }
 
 .selected {
-  background-color: greenyellow;
+  border: 2px solid greenyellow;
 }
 
 #shuffle {
   display: block;
-  margin-top: 24px;
   padding: 8px 16px;
+  margin-top: 20px;
   border: none;
   border-radius: 4px;
   background-color: #333;

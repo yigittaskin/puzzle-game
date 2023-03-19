@@ -11,34 +11,39 @@
   <div id="fullscreen-alert-user">
     <div class="overlay"></div>
     <div class="content">
+      <input type="file" id="uploadImage">
       <h4 class="congrat">Enter Username:</h4>
       <input type="text" name="username" id="username" required size="50" maxlength="50">
-      <button class="bn54" style="margin-top: 10px;" onclick="closeFullscreenAlert()"><span class="bn54span">Play</span></button>
+      <button class="bn54" style="margin-top: 10px;" onclick="closeFullscreenAlert()"><span
+          class="bn54span">Play</span></button>
     </div>
   </div>
 
   <div class="userBox">
-    Username: 
+    Username:
     <span class="user"></span>
   </div>
-  
-  <div class="puzzle">
-    <div class="piece" style="top: 0; left: 0">1</div>
-    <div class="piece" style="top: 0; left: 100px">2</div>
-    <div class="piece" style="top: 0; left: 200px">3</div>
-    <div class="piece" style="top: 0; left: 300px">4</div>
-    <div class="piece" style="top: 100px; left: 0">5</div>
-    <div class="piece" style="top: 100px; left: 100px">6</div>
-    <div class="piece" style="top: 100px; left: 200px">7</div>
-    <div class="piece" style="top: 100px; left: 300px">8</div>
-    <div class="piece" style="top: 200px; left: 0">9</div>
-    <div class="piece" style="top: 200px; left: 100px">10</div>
-    <div class="piece" style="top: 200px; left: 200px">11</div>
-    <div class="piece" style="top: 200px; left: 300px">12</div>
-    <div class="piece" style="top: 300px; left: 0">13</div>
-    <div class="piece" style="top: 300px; left: 100px">14</div>
-    <div class="piece" style="top: 300px; left: 200px">15</div>
-    <div class="piece" style="top: 300px; left: 300px">16</div>
+
+  <div class="area">
+    <div class="puzzle">
+      <div class="piece" style="top: 0; left: 0">1</div>
+      <div class="piece" style="top: 0; left: 100px">2</div>
+      <div class="piece" style="top: 0; left: 200px">3</div>
+      <div class="piece" style="top: 0; left: 300px">4</div>
+      <div class="piece" style="top: 100px; left: 0">5</div>
+      <div class="piece" style="top: 100px; left: 100px">6</div>
+      <div class="piece" style="top: 100px; left: 200px">7</div>
+      <div class="piece" style="top: 100px; left: 300px">8</div>
+      <div class="piece" style="top: 200px; left: 0">9</div>
+      <div class="piece" style="top: 200px; left: 100px">10</div>
+      <div class="piece" style="top: 200px; left: 200px">11</div>
+      <div class="piece" style="top: 200px; left: 300px">12</div>
+      <div class="piece" style="top: 300px; left: 0">13</div>
+      <div class="piece" style="top: 300px; left: 100px">14</div>
+      <div class="piece" style="top: 300px; left: 200px">15</div>
+      <div class="piece" style="top: 300px; left: 300px">16</div>
+    </div>
+    <div class="full-puzzle"></div>
   </div>
 
   <button id="shuffle">Shuffle</button>
@@ -52,9 +57,9 @@
       <button class="bn54" onclick="closeFullscreenAlert()"><span class="bn54span">Play Again</span></button>
     </div>
   </div>
-  
 
- <script src="puzzleGame.js"></script>
+
+  <script src="puzzleGame.js"></script>
 </body>
 
 </html>
