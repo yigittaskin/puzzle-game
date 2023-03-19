@@ -235,11 +235,11 @@ function download(filename, text) {
   pom.setAttribute('download', filename);
 
   if (document.createEvent) {
-      var event = document.createEvent('MouseEvents');
-      event.initEvent('click', true, true);
-      pom.dispatchEvent(event);
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('click', true, true);
+    pom.dispatchEvent(event);
   }
   else {
-      pom.click();
+    pom.click();
   }
 }
