@@ -21,16 +21,9 @@ uploadImage.addEventListener("change", function () {
     // Resim elemanını seçin ve canvas'a yükleyin
     const image = new Image();
     image.src = puzzleImage;
-    console.log(image);
 
     // Resmi yükleyin ve boyutlarını kontrol edin
     image.onload = () => {
-      const imgWidth = image.width;
-      const imgHeight = image.height;
-      if (imgWidth > 600 || imgHeight > 600) {
-        alert('Önerilen boyut: 600x600.... Yine de devam etmek ister misiniz?');
-      }
-
       // Canvas boyutlarını ayarlayın
       canvas.width = 600;
       canvas.height = 600;
