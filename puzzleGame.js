@@ -7,6 +7,112 @@ let firstClick = null;
 let count = 0;
 let username;
 
+// 'Node' sınıfı, her bir bağlı liste öğesi için veri ve bir sonraki öğeye işaret eden bir işaretçi içerir.
+class Node {
+  constructor(data) {
+    this.data = data; // veri parçası
+    this.next = null; // sonraki öğeye işaret eden işaretçi
+  }
+}
+class LinkedList {
+  constructor() {
+    this.head = null; // bağlı listenin başlangıç noktasını tutan başlangıç işaretçisi
+    this.size = 0; // bağlı listenin öğe sayısı
+  }
+
+  // Yeni bir öğe eklemek için
+  add(data) {
+    const node = new Node(data); // yeni bir öğe oluşturulur
+    let current;
+
+    if (this.head == null) { // eğer bağlı liste boşsa, yeni öğe başlangıç noktasına atanır
+      this.head = node;
+    } else { // aksi halde son öğe bulunur ve yeni öğe sonraki öğe olarak atanır
+      current = this.head;
+
+      while (current.next) { // son öğe bulunana kadar tüm öğeler gezilir
+        current = current.next;
+      }
+
+      current.next = node;
+    }
+
+    this.size++; // bağlı listenin öğe sayısı bir arttırılır
+  }
+
+  // Bir öğe silmek için
+  remove(data) {
+    let current = this.head; // öğeleri gezinmek için
+    let prev = null; // önceki öğenin işaretçisi
+
+    while (current != null) { // öğeler gezilir
+      if (current.data === data) { // verilen öğe bulunduysa
+        if (prev == null) { // eğer verilen öğe başlangıç noktasındaysa, başlangıç noktası güncellenir
+          this.head = current.next;
+        } else { // aksi halde, önceki öğenin işaretçisi yeni öğeye yönlendirilir
+          prev.next = current.next;
+        }
+        this.size--; // bağlı listenin öğe sayısı bir azaltılır
+        return current.data; // silinen öğenin verisi döndürülür
+      }
+      prev = current;
+      current = current.next; // sonraki öğeye geçilir
+    }
+    return null; // eğer verilen öğe bulunamazsa 'null' döndürülür
+  }
+
+  printList() {
+    let current = this.head;
+    let list = "";
+
+    while (current) {
+      list += `(${current.data} => ${current.next ? current.next.data : "null"}) `;
+      current = current.next;
+    }
+
+    console.log(list);
+  }
+
+  // Puzzle doğruluğunu bağlı listeler ile kontrol
+  checkSolved() {
+    let current = this.head;
+    console.log(current);
+    let correctList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];
+    let puzzleList = [];
+    let isSolved = false;
+
+    while (current) {
+      puzzleList.push(current.data);
+      current = current.next;
+    }
+
+    let pieceCount = 0; // Doğru elemanların sayısını tutan değişken
+    // Tüm elemanların doğru olup olmadığının kontrolü
+    for (let i = 0; i < correctList.length; i++) {
+      if (correctList[i] == puzzleList[i]) {
+        pieceCount += 1;
+      }
+    }
+
+    if (pieceCount == 16) {
+      isSolved = true;
+    }
+
+    console.log(correctList);
+    console.log(puzzleList);
+    console.log(isSolved);
+  }
+}
+
+// Bağlı listeye puzzle parçalarının eklenmesi
+const ll = new LinkedList();
+pieces.forEach((piece) => {
+  ll.add(piece.innerHTML);
+});
+
+ll.printList();
+ll.checkSolved();
+
 // Yüklenen resmi 16 parçaya bölme
 const uploadImage = document.getElementById("uploadImage");
 const canvas = document.createElement('canvas');
@@ -52,39 +158,6 @@ uploadImage.addEventListener("change", function () {
   }
 
   fileReader.readAsDataURL(dosya);
-});
-
-
-// Bağlı Liste oluşturulması
-pieces.forEach((piece) => {
-  piece.prev = null;
-  piece.next = null;
-
-  pieces.forEach((otherPiece) => {
-    if (
-      otherPiece !== piece &&
-      (
-        otherPiece.style.top === piece.style.top &&
-        (
-          otherPiece.style.left === piece.style.left + '150px' ||
-          otherPiece.style.left === piece.style.left - '150px'
-        )
-      ) ||
-      (
-        otherPiece.style.left === piece.style.left &&
-        (
-          otherPiece.style.top === piece.style.top + '150px' ||
-          otherPiece.style.top === piece.style.top - '150px'
-        )
-      )
-    ) {
-      if (!piece.next) {
-        piece.next = otherPiece;
-      } else if (!piece.prev) {
-        piece.prev = otherPiece;
-      }
-    }
-  });
 });
 
 // Puzzle parçalarının karıştırılması
@@ -187,10 +260,12 @@ function checkIfSolved() {
   }
 }
 
+// Oyun bitiminde açılan pop-up
 function openFullscreenAlert() {
   document.getElementById("fullscreen-alert").style.display = "block";
 }
 
+//Oyun bitiminde açılan ekranın kapatılması
 function closeFullscreenAlert() {
   document.getElementById("fullscreen-alert").style.display = "none";
 
