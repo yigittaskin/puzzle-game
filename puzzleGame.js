@@ -89,11 +89,11 @@ class LinkedList {
     // Tüm elemanların doğru olup olmadığının kontrolü
     for (let i = 0; i < correctList.length; i++) {
       if (correctList[i] == puzzleList[i]) {
-        pieces[puzzleList[i]-1].classList.add("truePiece");
+        pieces[puzzleList[i] - 1].classList.add("truePiece");
         pieceCount += 1;
       }
       else {
-        pieces[puzzleList[i]-1].classList.remove("truePiece");
+        pieces[puzzleList[i] - 1].classList.remove("truePiece");
       }
     }
 
