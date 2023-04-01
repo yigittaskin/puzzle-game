@@ -297,8 +297,7 @@ function closeFullscreenAlert() {
 }
 
 function closeFullscreenAlert2() {
-  document.getElementById("fullscreen-alert").style.display = "none";
-    document.getElementById("fullscreen-alert-user").style.display = "block";
+  location.reload();
 }
 
 // Puzzle parçalarının yer değiştirmesini tetikleme
