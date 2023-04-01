@@ -89,6 +89,7 @@ class LinkedList {
     // Tüm elemanların doğru olup olmadığının kontrolü
     for (let i = 0; i < correctList.length; i++) {
       if (correctList[i] == puzzleList[i]) {
+        pieces[puzzleList[i]-1].classList.add("truePiece");
         pieceCount += 1;
       }
     }
@@ -290,6 +291,11 @@ function closeFullscreenAlert() {
   count = 0;
   printCount();
   shuffle();
+}
+
+function closeFullscreenAlert2() {
+  document.getElementById("fullscreen-alert").style.display = "none";
+    document.getElementById("fullscreen-alert-user").style.display = "block";
 }
 
 // Puzzle parçalarının yer değiştirmesini tetikleme
