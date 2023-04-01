@@ -92,6 +92,9 @@ class LinkedList {
         pieces[puzzleList[i]-1].classList.add("truePiece");
         pieceCount += 1;
       }
+      else {
+        pieces[puzzleList[i]-1].classList.remove("truePiece");
+      }
     }
 
     if (pieceCount == 16) {
