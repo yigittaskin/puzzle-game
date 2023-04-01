@@ -76,7 +76,6 @@ class LinkedList {
   // Puzzle doğruluğunu bağlı listeler ile kontrol
   checkSolved() {
     let current = this.head;
-    console.log(current);
     let correctList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];
     let puzzleList = [];
     let isSolved = false;
@@ -90,28 +89,74 @@ class LinkedList {
     // Tüm elemanların doğru olup olmadığının kontrolü
     for (let i = 0; i < correctList.length; i++) {
       if (correctList[i] == puzzleList[i]) {
+        pieces[puzzleList[i] - 1].classList.add("truePiece");
         pieceCount += 1;
+      }
+      else {
+        pieces[puzzleList[i] - 1].classList.remove("truePiece");
       }
     }
 
     if (pieceCount == 16) {
       isSolved = true;
+      setTimeout(openFullscreenAlert, 300);
+      var content = `Kullanıcı adı: ${username}\nHamle Sayısı: ${count}`;
+      download('enyuksekskor.txt', content);
+    }
+  }
+
+  //Hamle
+  swapPieces(data1, data2) {
+    // İlk elemanın işaretçisi bulunur
+    let current1 = this.head;
+    let prev1 = null;
+
+    while (current1 != null && current1.data != data1) {
+      prev1 = current1;
+      current1 = current1.next;
     }
 
-    console.log(correctList);
-    console.log(puzzleList);
-    console.log(isSolved);
+    // İkinci elemanın işaretçisi bulunur
+    let current2 = this.head;
+    let prev2 = null;
+
+    while (current2 != null && current2.data != data2) {
+      prev2 = current2;
+      current2 = current2.next;
+    }
+
+    // Eğer verilen elemanlardan biri ya da ikisi de listede yoksa, işlem yapılmaz
+    if (current1 == null || current2 == null) {
+      return;
+    }
+
+    // İlk elemanın işaretçisi, ikinci elemanın işaretçisine yönlendirilir
+    if (prev1 == null) {
+      this.head = current2;
+    } else {
+      prev1.next = current2;
+    }
+
+    // İkinci elemanın işaretçisi, ilk elemanın işaretçisine yönlendirilir
+    if (prev2 == null) {
+      this.head = current1;
+    } else {
+      prev2.next = current1;
+    }
+
+    // Elemanların yerleri değiştirilir
+    let temp = current1.next;
+    current1.next = current2.next;
+    current2.next = temp;
   }
+
 }
 
-// Bağlı listeye puzzle parçalarının eklenmesi
+//Bağlı listeye puzzle parçalarını ekleme
 const ll = new LinkedList();
 pieces.forEach((piece) => {
-  ll.add(piece.innerHTML);
+  ll.add(piece.id);
 });
-
-ll.printList();
-ll.checkSolved();
 
 // Yüklenen resmi 16 parçaya bölme
 const uploadImage = document.getElementById("uploadImage");
@@ -163,61 +208,51 @@ uploadImage.addEventListener("change", function () {
 // Puzzle parçalarının karıştırılması
 function shuffle() {
   const indexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-  let currentIndex = indexes.length - 1;
-  let temporaryValue, randomIndex;
 
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+  pieces.forEach((piece) => {
+    // Rastgele bir eleman seçin
+    const randomIndex = Math.floor(Math.random() * indexes.length);
+    const randomPieceIndex = indexes[randomIndex];
 
-    temporaryValue = indexes[currentIndex];
-    indexes[currentIndex] = indexes[randomIndex];
-    indexes[randomIndex] = temporaryValue;
-  }
+    // Seçilen elemanı diziden silin
+    indexes.splice(randomIndex, 1);
 
-  pieces.forEach((piece, index) => {
-    piece.style.top = Math.floor(indexes[index] / 4) * 150 + 'px';
-    piece.style.left = (indexes[index] % 4) * 150 + 'px';
+    // Rastgele seçilen elemanın `pieces` dizisindeki parçayla yer değiştirmesi
+    const randomPiece = pieces[randomPieceIndex];
+    const firstPiece = pieces[piece.id - 1];
+    pieces[randomPieceIndex] = firstPiece;
+    pieces[piece.id - 1] = randomPiece;
+
+    // Puzzle parçalarını bağlı listeye yerleştirme
+    ll.swapPieces(firstPiece.id, randomPiece.id);
+
+    // Rastgele atanan elemanlar id'sine göre yer değiştiriyor
+    let firstPozX = piece.style.backgroundPositionX;
+    piece.style.backgroundPositionX = randomPiece.style.backgroundPositionX;
+    randomPiece.style.backgroundPositionX = firstPozX;
+    let firstPozY = piece.style.backgroundPositionY;
+    piece.style.backgroundPositionY = randomPiece.style.backgroundPositionY;
+    randomPiece.style.backgroundPositionY = firstPozY;
   });
 }
 
-shuffle();
 
 // Puzzle parçalarının hareket ettirilmesi
 function swapPieces(piece) {
-
   if (firstClick === null) {
     // İlk tıklanan parçaya class ve parça atanması
     firstClick = piece;
     firstClick.classList.add("selected");
   } else {
     // 2.tıklanan parça ve yer değiştirme
-    const tempPrev = piece.prev;
-    const tempNext = piece.next;
-    piece.prev = firstClick.prev;
-    piece.next = firstClick.next;
-    firstClick.prev = tempPrev;
-    firstClick.next = tempNext;
-
-    if (firstClick.prev) {
-      firstClick.prev.next = firstClick;
-    }
-    if (firstClick.next) {
-      firstClick.next.prev = firstClick;
-    }
-    if (piece.prev) {
-      piece.prev.next = piece;
-    }
-    if (piece.next) {
-      piece.next.prev = piece;
-    }
+    ll.swapPieces(firstClick.id, piece.id);
     // Parçaların konumlarını değiştirme
-    const tempTop = piece.style.top;
-    const tempLeft = piece.style.left;
-    piece.style.top = firstClick.style.top;
-    piece.style.left = firstClick.style.left;
-    firstClick.style.top = tempTop;
-    firstClick.style.left = tempLeft;
+    let firstPozX = firstClick.style.backgroundPositionX;
+    firstClick.style.backgroundPositionX = piece.style.backgroundPositionX;
+    piece.style.backgroundPositionX = firstPozX;
+    let firstPozY = firstClick.style.backgroundPositionY;
+    firstClick.style.backgroundPositionY = piece.style.backgroundPositionY;
+    piece.style.backgroundPositionY = firstPozY;
 
     // İlk tıklamayı resetleme
     firstClick.classList.remove("selected");
@@ -226,38 +261,16 @@ function swapPieces(piece) {
     // Hamle sayısını arttırma ve yazdırma
     count++;
     printCount();
-
-    // Puzzle doğruluğunun kontrolü
-    checkIfSolved();
   }
+  // Puzzle doğruluğunun kontrolü
+  ll.checkSolved();
+  ll.printList();
 }
 
 // Hamle sayısını yazdırma
 function printCount() {
   countDiv.innerHTML = `Count: ${count}`;
   countCongrat.innerHTML = `Count: ${count}`;
-}
-
-// Puzzle doğruluğunun kontrolü
-function checkIfSolved() {
-  var checkSort = "";
-  let isSolved = false;
-  pieces.forEach((piece, index) => {
-    const left = parseInt(piece.style.left);
-    const top = parseInt(piece.style.top);
-    checkSort += `${left},${top},`;
-    const correctSort = "0,0,150,0,300,0,450,0,0,150,150,150,300,150,450,150,0,300,150,300,300,300,450,300,0,450,150,450,300,450,450,450,";
-    // Puzzle sıralamasının doğru olup olmadığının kontrolü
-    if (correctSort == checkSort) {
-      isSolved = true;
-    }
-  });
-  if (isSolved) {
-    // Puzzle çözüldüğünde
-    setTimeout(openFullscreenAlert, 300);
-    var content = `Kullanıcı adı: ${username}\nHamle Sayısı: ${count}`;
-    download('enyuksekskor.txt', content);
-  }
 }
 
 // Oyun bitiminde açılan pop-up
@@ -281,6 +294,10 @@ function closeFullscreenAlert() {
   count = 0;
   printCount();
   shuffle();
+}
+
+function closeFullscreenAlert2() {
+  location.reload();
 }
 
 // Puzzle parçalarının yer değiştirmesini tetikleme
