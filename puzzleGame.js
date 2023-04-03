@@ -93,6 +93,7 @@ class LinkedList {
         pieces[puzzleList[i] - 1].classList.add("truePiece");
         pieceCount++;
         score = pieceCount *5;
+        printCount();
       }
       else {
         pieces[puzzleList[i] - 1].classList.remove("truePiece");
