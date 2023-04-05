@@ -5,6 +5,7 @@ var countCongrat = document.getElementById('countCongrat');
 var usernameInput = document.getElementById('username');
 let firstClick = null;
 let count = 0;
+let score = 0;
 let username;
 
 // 'Node' sınıfı, her bir bağlı liste öğesi için veri ve bir sonraki öğeye işaret eden bir işaretçi içerir.
@@ -19,32 +20,32 @@ class LinkedList {
     this.head = null; // bağlı listenin başlangıç noktasını tutan başlangıç işaretçisi
     this.size = 0; // bağlı listenin öğe sayısı
   }
-
+  
   // Yeni bir öğe eklemek için
   add(data) {
     const node = new Node(data); // yeni bir öğe oluşturulur
     let current;
-
+    
     if (this.head == null) { // eğer bağlı liste boşsa, yeni öğe başlangıç noktasına atanır
       this.head = node;
     } else { // aksi halde son öğe bulunur ve yeni öğe sonraki öğe olarak atanır
       current = this.head;
-
+      
       while (current.next) { // son öğe bulunana kadar tüm öğeler gezilir
         current = current.next;
       }
-
+      
       current.next = node;
     }
-
+    
     this.size++; // bağlı listenin öğe sayısı bir arttırılır
   }
-
+  
   // Bir öğe silmek için
   remove(data) {
     let current = this.head; // öğeleri gezinmek için
     let prev = null; // önceki öğenin işaretçisi
-
+    
     while (current != null) { // öğeler gezilir
       if (current.data === data) { // verilen öğe bulunduysa
         if (prev == null) { // eğer verilen öğe başlangıç noktasındaysa, başlangıç noktası güncellenir
@@ -60,47 +61,49 @@ class LinkedList {
     }
     return null; // eğer verilen öğe bulunamazsa 'null' döndürülür
   }
-
+  
   printList() {
     let current = this.head;
     let list = "";
-
+    
     while (current) {
       list += `(${current.data} => ${current.next ? current.next.data : "null"}) `;
       current = current.next;
     }
-
+    
     console.log(list);
   }
-
+  
   // Puzzle doğruluğunu bağlı listeler ile kontrol
   checkSolved() {
     let current = this.head;
     let correctList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];
     let puzzleList = [];
     let isSolved = false;
-
+    
     while (current) {
       puzzleList.push(current.data);
       current = current.next;
     }
-
+    
     let pieceCount = 0; // Doğru elemanların sayısını tutan değişken
     // Tüm elemanların doğru olup olmadığının kontrolü
     for (let i = 0; i < correctList.length; i++) {
       if (correctList[i] == puzzleList[i]) {
         pieces[puzzleList[i] - 1].classList.add("truePiece");
-        pieceCount += 1;
+        pieceCount++;
+        score = pieceCount *5;
+        printCount();
       }
       else {
         pieces[puzzleList[i] - 1].classList.remove("truePiece");
       }
     }
-
+    
     if (pieceCount == 16) {
       isSolved = true;
       setTimeout(openFullscreenAlert, 300);
-      var content = `Kullanıcı adı: ${username}\nHamle Sayısı: ${count}`;
+      var content = `Username: ${username}\nSwap: ${count}\nSkor: ${score}`;
       download('enyuksekskor.txt', content);
     }
   }
@@ -253,24 +256,23 @@ function swapPieces(piece) {
     let firstPozY = firstClick.style.backgroundPositionY;
     firstClick.style.backgroundPositionY = piece.style.backgroundPositionY;
     piece.style.backgroundPositionY = firstPozY;
-
+    
     // İlk tıklamayı resetleme
     firstClick.classList.remove("selected");
     firstClick = null;
-
+    
     // Hamle sayısını arttırma ve yazdırma
     count++;
     printCount();
   }
   // Puzzle doğruluğunun kontrolü
   ll.checkSolved();
-  ll.printList();
 }
 
 // Hamle sayısını yazdırma
 function printCount() {
-  countDiv.innerHTML = `Count: ${count}`;
-  countCongrat.innerHTML = `Count: ${count}`;
+  countDiv.innerHTML = `Swap: ${count} <br> Score: ${score}`;
+  countCongrat.innerHTML = `Swap: ${count} <br> Score: ${score}`;
 }
 
 // Oyun bitiminde açılan pop-up
