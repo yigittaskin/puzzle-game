@@ -109,6 +109,7 @@ input[type=file]::file-selector-button:hover {
 
 .truePiece {
   border: 2px solid greenyellow;
+  pointer-events: none;
 }
 
 #shuffle {
