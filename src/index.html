@@ -13,7 +13,7 @@
     <div class="content">
       <h4 class="congrat">Enter Username:</h4>
       <input type="text" name="username" id="username" required size="50" maxlength="50"> <br>
-      <input type="file" id="uploadImage">
+      <input type="file" id="uploadImage" required accept="image/png, image/jpg, image/jpeg">
       <button class="bn54" style="margin-top: 10px;" onclick="closeFullscreenAlert()"><span
           class="bn54span">Play</span></button>
       <div class="scores" style="margin-top: 40px">
@@ -114,11 +114,6 @@
       });
       otherSwaps.innerHTML = content;
     });
-
-
   </script>
-
-
 </body>
-
 </html>

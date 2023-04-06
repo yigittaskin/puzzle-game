@@ -288,7 +288,7 @@ function openFullscreenAlert() {
 function closeFullscreenAlert() {
   document.getElementById("fullscreen-alert").style.display = "none";
 
-  if (usernameInput.value) {
+  if (usernameInput.value && uploadImage.value) {
     document.getElementById("fullscreen-alert-user").style.display = "none";
     username = usernameInput.value;
     document.querySelector('.user').innerHTML = username;

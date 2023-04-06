@@ -67,6 +67,15 @@ input[type=file]::file-selector-button:hover {
   align-items: center;
 }
 
+@media screen and (max-width: 1230px) {
+  .area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  }
+}
+
 .puzzle {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
