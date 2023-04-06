@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>16-Piece Puzzle Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div id="fullscreen-alert-user">
+    <div class="overlay"></div>
+    <div class="content">
+      <h4 class="congrat">Enter Username:</h4>
+      <input type="text" name="username" id="username" required size="50" maxlength="50"> <br>
+      <input type="file" id="uploadImage" required accept="image/png, image/jpg, image/jpeg">
+      <button class="bn54" style="margin-top: 10px;" onclick="closeFullscreenAlert()"><span
+          class="bn54span">Play</span></button>
+      <div class="scores" style="margin-top: 40px">
+        <h4 style="color: #51B59F">Best Swaps (Top 5)</h4>
+        <div style="text-align: left; margin-left: 100px;" id="otherSwaps">0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="userBox">
+    Username:
+    <span class="user"></span>
+  </div>
+
+  <div class="area">
+    <div class="puzzle">
+      <div class="piece" id="1"></div>
+      <div class="piece" id="2"></div>
+      <div class="piece" id="3"></div>
+      <div class="piece" id="4"></div>
+      <div class="piece" id="5"></div>
+      <div class="piece" id="6"></div>
+      <div class="piece" id="7"></div>
+      <div class="piece" id="8"></div>
+      <div class="piece" id="9"></div>
+      <div class="piece" id="10"></div>
+      <div class="piece" id="11"></div>
+      <div class="piece" id="12"></div>
+      <div class="piece" id="13"></div>
+      <div class="piece" id="14"></div>
+      <div class="piece" id="15"></div>
+      <div class="piece" id="16"></div>
+    </div>
+    <div class="full-puzzle"></div>
+  </div>
+
+  <button id="shuffle">Shuffle</button>
+  <h2 id="count">Count: 0</h2>
+
+  <div id="fullscreen-alert">
+    <div class="overlay"></div>
+    <div class="content">
+      <h4 class="congrat">Congratulations! You have successfully completed the game.</h4>
+      <h2 id="countCongrat">Count: 0</h2>
+      <button class="bn54" onclick="closeFullscreenAlert2()"><span class="bn54span">Play Again</span></button>
+    </div>
+  </div>
+  <div id="download" style="display: none;">0</div>
+
+  <script src="puzzleGame.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyB589G8Y2QICKHzgNdTfnGsilrwoVP-0V8",
+      authDomain: "puzzlegame-5d75e.firebaseapp.com",
+      databaseURL: "https://puzzlegame-5d75e-default-rtdb.firebaseio.com/",
+      projectId: "puzzlegame-5d75e",
+      storageBucket: "puzzlegame-5d75e.appspot.com",
+      messagingSenderId: "67735790397",
+      appId: "1:67735790397:web:fb8a15cf017eef3a79db54"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    function writeData() {
+      console.log('olduuuu');
+      var users = firebase.database().ref('Users/' + Math.floor(Math.random() * 1000)).set({
+        user: username,
+        count: count,
+        score: score
+      });
+    }
+
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (mutation.type === 'childList') {
+          writeData();
+        }
+      });
+    });
+
+    const targetNode = document.getElementById('download');
+    const otherSwaps = document.getElementById('otherSwaps');
+    observer.observe(targetNode, { childList: true });
+
+    var db = firebase.database();
+    var ref = db.ref('Users');
+
+    ref.orderByChild('count').limitToFirst(5).on('value', function (snapshot) {
+      let data = [];
+      let content = '';
+      snapshot.forEach(function (childSnapshot) {
+        var count = childSnapshot.val().count;
+        var user = childSnapshot.val().user;
+        data.push({ count, user }); // hem count hem de user objeye eklenir
+      });
+      data.forEach(function (item) {
+        content += `<ol>${item.count} - ${item.user}</ol>`; // hem count hem de user değerleri kullanılır
+      });
+      otherSwaps.innerHTML = content;
+    });
+  </script>
+</body>
+</html>
