@@ -17,8 +17,8 @@
       <button class="bn54" style="margin-top: 10px;" onclick="closeFullscreenAlert()"><span
           class="bn54span">Play</span></button>
       <div class="scores" style="margin-top: 40px">
-        <h4 style="color: #51B59F">Best Swaps (Top 5)</h4>
-        <div style="text-align: left; margin-left: 100px;" id="otherSwaps">0</div>
+        <h4 style="color: #51B59F">Best Swaps (Top 5)</h4><hr>
+        <div style="text-align: left;" id="otherSwaps">0</div>
       </div>
     </div>
   </div>
@@ -78,7 +78,6 @@
     firebase.initializeApp(firebaseConfig);
 
     function writeData() {
-      console.log('olduuuu');
       var users = firebase.database().ref('Users/' + Math.floor(Math.random() * 1000)).set({
         user: username,
         count: count,
@@ -110,7 +109,7 @@
         data.push({ count, user }); // hem count hem de user objeye eklenir
       });
       data.forEach(function (item) {
-        content += `<ol>${item.count} - ${item.user}</ol>`; // hem count hem de user değerleri kullanılır
+        content += `<ol>${item.count} - ${item.user}</ol><hr>`; // hem count hem de user değerleri yazdırılır
       });
       otherSwaps.innerHTML = content;
     });
