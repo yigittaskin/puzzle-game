@@ -1,12 +1,14 @@
 const pieces = document.querySelectorAll('.piece');
 const fullPuzzle = document.querySelector('.full-puzzle');
+var downloadDiv = document.querySelector('#download');
 var countDiv = document.getElementById('count');
 var countCongrat = document.getElementById('countCongrat');
 var usernameInput = document.getElementById('username');
 let firstClick = null;
-let count = 0;
-let score = 0;
-let username;
+var count = 0;
+var score = 0;
+var username;
+var isFinish = false;
 
 // 'Node' sınıfı, her bir bağlı liste öğesi için veri ve bir sonraki öğeye işaret eden bir işaretçi içerir.
 class Node {
@@ -102,6 +104,8 @@ class LinkedList {
     
     if (pieceCount == 16) {
       isSolved = true;
+      downloadDiv.innerHTML = '1';
+      console.log(downloadDiv);
       setTimeout(openFullscreenAlert, 300);
       var content = `Username: ${username}\nSwap: ${count}\nSkor: ${score}`;
       download('enyuksekskor.txt', content);
