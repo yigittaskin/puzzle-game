@@ -271,3 +271,7 @@ input[type=file]::file-selector-button:hover {
     transform: translate3d(0, 0, 0) translateZ(0);
   }
 }
+
+ol {
+  padding-left: 145px;
+}
